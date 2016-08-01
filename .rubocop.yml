@@ -1,0 +1,89 @@
+Rails:
+  Enabled: true
+
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+
+  Include:
+    - "**/Rakefile"
+    - "**/config.ru"
+  Exclude:
+    - "vendor/**/*"
+    - "spec/fixtures/**/*"
+    - "bin/**/*"
+    - "script/**/*"
+Metrics/LineLength:
+  Max: 120
+Rails/Date:
+  Enabled: false
+Rails/TimeZone:
+  Enabled: false
+AllCops:
+  TargetRubyVersion: 2.3
+Style/AndOr:
+  EnforcedStyle: conditionals
+Style/CaseIndentation:
+  IndentOneStep: true
+Style/Documentation:
+  Enabled: false
+Style/EachWithObject:
+  Enabled: false
+Style/ExtraSpacing:
+  Exclude:
+    - "config/routes.rb"
+Style/HashSyntax:
+  Exclude:
+    - "lib/tasks/**/*"
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
+Style/NumericLiterals:
+  Enabled: false
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    "%w": "[]"
+    "%W": "[]"
+    "%i": "[]"
+    "%I": "[]"
+    "%r": "()"
+Style/SignalException:
+  EnforcedStyle: semantic
+Style/SingleLineBlockParams:
+  Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+Style/MultilineMethodCallIndentation:
+  Exclude:
+    - "spec/**/*.rb"
+
+
+# Rubocop's global exclude seems to fail to exclude the bin/ dir, so set all
+# the cops that are failing manually, since most of these files are
+# auto-generated anyways. Also, if the rules also appear above, we need to copy
+# the same attrs, because YAML won't merge, only overwrite.
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  Exclude:
+    - "bin/**/*"
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - "bin/**/*"
+Style/LeadingCommentSpace:
+  Exclude:
+    - "bin/**/*"
+Style/SpaceInsideParens:
+  Exclude:
+    - "bin/**/*"
+Style/AlignParameters:
+  Exclude:
+    - "bin/**/*"
+Style/ExtraSpacing:
+  Exclude:
+    - "bin/**/*"
+  Exclude:
+    - "config/routes.rb"
+Lint/PercentStringArray:
+  Exclude:
+    # SecureHeaders needs the single quotes in `%w[https: 'self']`
+    - config/initializers/secure_headers.rb
