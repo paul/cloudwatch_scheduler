@@ -1,6 +1,7 @@
 require "spec_helper"
 
 require "rails"
-require_relative "dummy/config/environment"
+rails_version = [Rails::VERSION::MAJOR, Rails::VERSION::MINOR].join
+require_relative "dummy-#{rails_version}/config/environment"
 
 
