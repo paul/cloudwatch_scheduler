@@ -1,6 +1,6 @@
 require "aws-sdk"
 
-module Metronome
+module CloudwatchScheduler
   class Provisioner
 
     attr_reader :config
@@ -42,7 +42,7 @@ module Metronome
           name: task.rule_name,
           schedule_expression: task.rule_schedule_expression,
           state: "ENABLED",
-          description: "Metronome task defined at #{task.code.source_location}"
+          description: "CloudwatchScheduler task defined at #{task.code.source_location}"
         ).rule_arn
 
         cwe.put_targets(

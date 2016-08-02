@@ -1,6 +1,6 @@
 require 'active_support/core_ext/digest/uuid'
 
-module Metronome
+module CloudwatchScheduler
   class Task
     attr_reader :name, :code
 
@@ -24,9 +24,9 @@ module Metronome
     #  "locale":"en"}
     def event_data
       {
-        job_class: Metronome::Job.name,
+        job_class: CloudwatchScheduler::Job.name,
         job_id: job_id,
-        queue_name: Metronome::Job.queue_name,
+        queue_name: CloudwatchScheduler::Job.queue_name,
         arguments: [name],
         locale: "en",
         priority: nil
@@ -34,7 +34,7 @@ module Metronome
     end
 
     def rule_name
-      [name, Metronome::Job.queue_name].join("-")
+      [name, CloudwatchScheduler::Job.queue_name].join("-")
     end
 
     def rule_schedule_expression

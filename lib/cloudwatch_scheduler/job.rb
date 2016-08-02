@@ -1,8 +1,8 @@
-module Metronome
+module CloudwatchScheduler
   class Job < ::ApplicationJob
-    queue_as :metronome
+    queue_as :cloudwatch_scheduler
 
-    def initialize(config: Metronome.global)
+    def initialize(config: CloudwatchScheduler.global)
       @config = config
     end
 

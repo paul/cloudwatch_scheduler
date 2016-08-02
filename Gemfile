@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in metronome.gemspec
+# Specify your gem's dependencies in cloudwatch_scheduler.gemspec
 gemspec
 
 group :development, :test do

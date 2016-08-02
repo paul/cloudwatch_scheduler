@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'metronome/version'
+require 'cloudwatch_scheduler/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "metronome"
-  spec.version       = Metronome::VERSION
+  spec.name          = "cloudwatch_scheduler"
+  spec.version       = CloudwatchScheduler::VERSION
   spec.authors       = ["Paul Sadauskas"]
   spec.email         = ["psadauskas@gmail.com"]
 
   spec.summary       = %q{Use AWS CloudWatch events to trigger recurring jobs.}
-  spec.homepage      = "https://github.com/paul/metronome"
+  spec.homepage      = "https://github.com/paul/cloudwatch_scheduler"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.

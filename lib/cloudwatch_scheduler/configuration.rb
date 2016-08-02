@@ -1,6 +1,6 @@
 require "active_support/core_ext/numeric/time"
 
-module Metronome
+module CloudwatchScheduler
   class Configuration
 
     attr_accessor :queue_name,
@@ -31,7 +31,7 @@ module Metronome
     end
 
     def queue_name
-      @queue_name ||= Metronome::Job.queue_name
+      @queue_name ||= CloudwatchScheduler::Job.queue_name
     end
 
   end

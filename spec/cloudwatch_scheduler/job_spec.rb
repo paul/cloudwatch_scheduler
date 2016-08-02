@@ -1,14 +1,14 @@
 require "rails_helper"
 
-require "metronome/job"
+require "cloudwatch_scheduler/job"
 
-RSpec.describe Metronome::Job do
+RSpec.describe CloudwatchScheduler::Job do
 
   before { $probe = false }
   after  { $probe = nil }
 
   let(:config) do
-    Metronome.global.configure do |config|
+    CloudwatchScheduler.global.configure do |config|
       task "test task", every: 1.minute do
         $probe = true
       end

@@ -1,18 +1,18 @@
 
-require "metronome/configuration"
-require "metronome/task"
-require "metronome/provisioner"
+require "cloudwatch_scheduler/configuration"
+require "cloudwatch_scheduler/task"
+require "cloudwatch_scheduler/provisioner"
 
-require "metronome/engine" if defined?(Rails)
+require "cloudwatch_scheduler/engine" if defined?(Rails)
 
-def Metronome(&config)
-  Metronome.global.tap { |c| c.configure(&config) }
+def CloudwatchScheduler(&config)
+  CloudwatchScheduler.global.tap { |c| c.configure(&config) }
 end
 
-module Metronome
+module CloudwatchScheduler
 
   def self.global
-    @global ||= Metronome::Configuration.new
+    @global ||= CloudwatchScheduler::Configuration.new
   end
 
 end

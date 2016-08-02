@@ -1,12 +1,12 @@
 require "spec_helper"
 
-RSpec.describe Metronome::Provisioner do
+RSpec.describe CloudwatchScheduler::Provisioner do
   before do
     Aws.config[:stub_responses] = true
   end
 
   let(:config) do
-    Metronome do |config|
+    CloudwatchScheduler do |config|
       config.queue_name = "example_queue_name"
     end
   end
@@ -21,6 +21,6 @@ RSpec.describe Metronome::Provisioner do
   end
 
   it "should work" do
-    Metronome::Provisioner.new(config, sqs_client: sqs_client).provision
+    CloudwatchScheduler::Provisioner.new(config, sqs_client: sqs_client).provision
   end
 end

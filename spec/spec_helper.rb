@@ -1,4 +1,4 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'metronome'
+require 'cloudwatch_scheduler'
 
 require "awesome_print"
