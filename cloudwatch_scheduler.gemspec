@@ -10,6 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["psadauskas@gmail.com"]
 
   spec.summary       = %q{Use AWS CloudWatch events to trigger recurring jobs.}
+  spec.description   = %q{Use Cloudwatch Events to kick off recurring SQS ActiveJob jobs.}
   spec.homepage      = "https://github.com/paul/cloudwatch_scheduler"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
