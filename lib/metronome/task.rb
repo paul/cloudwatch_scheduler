@@ -11,6 +11,10 @@ module Metronome
       @code = code
     end
 
+    def invoke
+      code.call
+    end
+
     def job_id
       Digest::UUID.uuid_v5(Digest::UUID::DNS_NAMESPACE, name)
     end

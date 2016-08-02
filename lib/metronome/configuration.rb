@@ -17,6 +17,7 @@ module Metronome
 
     def configure(&config)
       instance_exec(self, &config)
+      self
     end
 
     def task(name, **kwargs, &task)
