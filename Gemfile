@@ -7,4 +7,6 @@ group :development, :test do
   gem "awesome_print"
   gem "guard"
   gem "guard-rspec"
+
+  gem "appraisal"
 end
