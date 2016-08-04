@@ -13,6 +13,9 @@ module CloudwatchScheduler
         CloudwatchScheduler::Job.queue_name,
         ActiveJob::QueueAdapters::ShoryukenAdapter::JobWrapper
       )
+
+      # Load the configuration
+      require Rails.root.join("config/cloudwatch_schedule").to_s
     end
 
     rake_tasks do

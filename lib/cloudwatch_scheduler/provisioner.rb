@@ -49,7 +49,7 @@ module CloudwatchScheduler
           rule: task.rule_name,
           targets: [
             {
-              id: SecureRandom.uuid,
+              id: task.rule_name,
               arn: queue_arn,
               input: task.event_data.to_json
             }
