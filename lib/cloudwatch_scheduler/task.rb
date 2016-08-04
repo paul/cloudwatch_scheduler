@@ -34,7 +34,7 @@ module CloudwatchScheduler
     end
 
     def rule_name
-      limit = 64 - CloudwatchScheduler::Job.queue_name
+      limit = 64 - CloudwatchScheduler::Job.queue_name.length
       [name[0, limit-1], CloudwatchScheduler::Job.queue_name].join("-")
     end
 
