@@ -1,6 +1,7 @@
 module CloudwatchScheduler
   class Job < ::ApplicationJob
-    queue_as :cloudwatch_scheduler
+    # :ProductionScheduledJobs or :BetaScheduledJobs
+    queue_as "#{Rails.env.titlecase}ScheduledJobs".to_sym
 
     def initialize(config: CloudwatchScheduler.global)
       @config = config

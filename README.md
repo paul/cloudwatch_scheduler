@@ -32,7 +32,7 @@ Or install it yourself as:
 
 ## Usage
 
-Make yourself a `config/cloudwatch_scheduler.rb` file:
+Make yourself a `config/cloudwatch_schedule.rb` file:
 
 ```ruby
 require "cloudwatch_scheduler"
