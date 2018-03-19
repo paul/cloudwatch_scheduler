@@ -1,6 +1,6 @@
 # CloudwatchScheduler
 
-[![Build Status](https://travis-ci.org/rud/cloudwatch_scheduler.svg?branch=master)](https://travis-ci.org/rud/cloudwatch_scheduler)
+[![Build Status](https://travis-ci.org/paul/cloudwatch_scheduler.svg?branch=master)](https://travis-ci.org/paul/cloudwatch_scheduler)
 
 Are you using Rails 4.2+ and ActiveJob with the [Shoryuken
 driver][shoryuken-driver] to use SQS? Do you have recurring jobs that you kick
