@@ -74,6 +74,6 @@ Bug reports and pull requests are welcome on GitHub at
 https://github.com/paul/cloudwatch_scheduler.
 
 [shoryuken-driver]: https://github.com/phstc/shoryuken/wiki/Rails-Integration-Active-Job
-[clockwork]: https://github.com/tomykaira/clockwork
+[clockwork]: https://rubygems.org/gems/clockwork
 [cloudwatch-events]: http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/ScheduledEvents.html
 
