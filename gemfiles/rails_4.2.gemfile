@@ -11,4 +11,4 @@ group :development, :test do
   gem "appraisal"
 end
 
-gemspec :path => "../"
+gemspec path: "../"
