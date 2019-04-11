@@ -1,14 +1,17 @@
+# frozen_string_literal: true
+
 require "aws-sdk"
 
 module CloudwatchScheduler
   class Provisioner
-
     attr_reader :config
 
-    def initialize(config, sqs_client: Aws::SQS::Client.new,
-                           cwe_client: Aws::CloudWatchEvents::Client.new)
+    def initialize(config,
+                   sqs_client: Aws::SQS::Client.new,
+                   cwe_client: Aws::CloudWatchEvents::Client.new)
       @config = config
-      @sqs_client, @cwe_client = sqs_client, cwe_client
+      @sqs_client = sqs_client
+      @cwe_client = cwe_client
     end
 
     def provision
@@ -30,13 +33,32 @@ module CloudwatchScheduler
           deadLetterTargetArn: dlq_arn
         }.to_json
 
-        attributes = {"RedrivePolicy" => redrive_attrs}
+        attributes = { "RedrivePolicy" => redrive_attrs }
 
         sqs.set_queue_attributes(queue_url: queue_url, attributes: attributes)
       end
     end
 
     def create_events!
+      list_rules_response = cwe.list_rules
+      raise "Unexpected next_token for CloudWatchEvents.list_rules" if list_rules_response.next_token
+
+      existing_rules = list_rules_response.rules
+
+      rules_to_delete = existing_rules.select { |r| r.name.ends_with? queue_name }
+      rules_to_delete.each do |r|
+        targets_response = cwe.list_targets_by_rule rule: r.name
+        raise "Unexpected next_token for CloudWatchEvents.list_targets_by_rule(rule: #{r.name})" if targets_response.next_token
+
+        targets = targets_response.targets
+        target_ids = targets.map(&:id)
+        puts "Removing targets rule: #{r.name}, ids: #{target_ids.join(', ')}"
+        cwe.remove_targets rule: r.name, ids: target_ids
+
+        puts "Deleting rule name: #{r.name}"
+        cwe.delete_rule name: r.name
+      end
+
       rule_arns = config.tasks.map do |_name, task|
         rule_arn = cwe.put_rule(
           name: task.rule_name,
@@ -59,33 +81,35 @@ module CloudwatchScheduler
         rule_arn
       end
 
-      policy = {
-        "Version": "2012-10-17",
-        "Id": "#{queue_arn}/SQSDefaultPolicy",
-        "Statement": rule_arns.map { |rule_arn|
-          {
-            "Sid": "TrustCWESendingToSQS",
-            "Effect": "Allow",
-            "Principal": {
-              "AWS": "*"
-            },
-            "Action": "sqs:SendMessage",
-            "Resource": queue_arn,
-            "Condition": {
-              "ArnEquals": {
-                "aws:SourceArn": rule_arn
+      if config.tasks.any?
+        policy = {
+          "Version": "2012-10-17",
+          "Id": "#{queue_arn}/SQSDefaultPolicy",
+          "Statement": rule_arns.map do |rule_arn|
+            {
+              "Sid": "TrustCWESendingToSQS",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Action": "sqs:SendMessage",
+              "Resource": queue_arn,
+              "Condition": {
+                "ArnEquals": {
+                  "aws:SourceArn": rule_arn
+                }
               }
             }
-          }
+          end
         }
-      }
 
-      sqs.set_queue_attributes(
-        queue_url: queue_url,
-        attributes: {
-          "Policy" => policy.to_json
-        }
-      )
+        sqs.set_queue_attributes(
+          queue_url: queue_url,
+          attributes: {
+            "Policy" => policy.to_json
+          }
+        )
+      end
     end
 
     private
@@ -101,10 +125,11 @@ module CloudwatchScheduler
     def queue_arn
       @queue_arn ||=
         sqs
-        .get_queue_attributes(queue_url: queue_url, attribute_names: ["QueueArn"])
-        .attributes["QueueArn"]
+          .get_queue_attributes(queue_url: queue_url, attribute_names: ["QueueArn"])
+          .attributes["QueueArn"]
     end
 
+    # @return [Aws::CloudWatchEvents::Client]
     def cwe
       @cwe_client
     end
@@ -112,6 +137,5 @@ module CloudwatchScheduler
     def sqs
       @sqs_client
     end
-
   end
 end
