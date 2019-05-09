@@ -1,14 +1,17 @@
-require "aws-sdk"
+# frozen_string_literal: true
+
+require "aws-sdk-sqs"
+require "aws-sdk-cloudwatchevents"
 
 module CloudwatchScheduler
   class Provisioner
-
     attr_reader :config
 
     def initialize(config, sqs_client: Aws::SQS::Client.new,
-                           cwe_client: Aws::CloudWatchEvents::Client.new)
+                   cwe_client: Aws::CloudWatchEvents::Client.new)
       @config = config
-      @sqs_client, @cwe_client = sqs_client, cwe_client
+      @sqs_client = sqs_client
+      @cwe_client = cwe_client
     end
 
     def provision
@@ -30,7 +33,7 @@ module CloudwatchScheduler
           deadLetterTargetArn: dlq_arn
         }.to_json
 
-        attributes = {"RedrivePolicy" => redrive_attrs}
+        attributes = { "RedrivePolicy" => redrive_attrs }
 
         sqs.set_queue_attributes(queue_url: queue_url, attributes: attributes)
       end
@@ -62,7 +65,7 @@ module CloudwatchScheduler
       policy = {
         "Version": "2012-10-17",
         "Id": "#{queue_arn}/SQSDefaultPolicy",
-        "Statement": rule_arns.map { |rule_arn|
+        "Statement": rule_arns.map do |rule_arn|
           {
             "Sid": "TrustCWESendingToSQS",
             "Effect": "Allow",
@@ -77,7 +80,7 @@ module CloudwatchScheduler
               }
             }
           }
-        }
+        end
       }
 
       sqs.set_queue_attributes(
@@ -112,6 +115,5 @@ module CloudwatchScheduler
     def sqs
       @sqs_client
     end
-
   end
 end
