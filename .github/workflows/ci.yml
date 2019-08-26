@@ -19,11 +19,11 @@ jobs:
       - name: Bundle
         run: |
           bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
-          appraisal install
+          bundle exec appraisal install
 
       - name: RSpec
         run: |
-          appraisal rspec
+          bundle exec appraisal rspec
 
   build:
     name: Build + Publish
