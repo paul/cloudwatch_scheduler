@@ -18,7 +18,7 @@ jobs:
 
       - name: Bundle
         run: |
-          bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+          gem install appraisal
 
       - name: RSpec
         run: |
