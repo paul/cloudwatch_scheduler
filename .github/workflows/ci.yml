@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    name: RSpec
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Ruby 2.6
+        uses: actions/setup-ruby@v1
+        with:
+          version: 2.6.x
+
+      - name: Bundle
+        run: |
+          bundle check --path=vendor/bundle || bundle install --local --path=vendor/bundle --jobs=4 --retry=3
+
+
+      - name: RSpec
+        run: |
+          appraisal rspec
