@@ -54,9 +54,48 @@ CloudwatchScheduler do |config|
 end
 ```
 
+You'll also need to inform Shoryuken about the `cloudwatch_scheduler` queue,
+either in the `config/shoryuken.yml` or with `-q cloudwatch_scheduler` on the
+command line.
+
 Then do `rake cloudwatch_scheduler:setup`, and CloudwatchScheduler will provision the events and
 cloudwatch_scheduler queue. Then, start your Shoruken workers as normal, and the
 `CloudwatchScheduler::Job` will get those events, and perform the tasks defined.
+
+### IAM Permissions
+
+The setup task requires some permissions in the AWS account to create the queue
+and Cloudwatch Events. Here's a sample policy:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "sqs:CreateQueue",
+        "sqs:GetQueueAttributes",
+        "sqs:SetQueueAttributes",
+      ],
+      "Resource": [
+        "arn:aws:sqs:REGION:AWS_ACCOUNT:cloudwatch_scheduler",
+        "arn:aws:sqs:REGION:AWS_ACCOUNT:cloudwatch_scheduler-failures"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "events:PutRule",
+        "events:PutTargets"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}
+```
 
 ## Development
 
