@@ -1,5 +1,7 @@
 # CloudwatchScheduler
 
+[![Actions Status](https://github.com/paul/cloudwatch_scheduler/workflows/CI/badge.svg)](https://github.com/paul/cloudwatch_scheduler/actions)
+
 Are you using Rails 4.2+ and ActiveJob with the [Shoryuken
 driver][shoryuken-driver] to use SQS? Do you have recurring jobs that you kick
 off periodically with the [amazing Clockwork gem][clockwork]? Tired of paying
