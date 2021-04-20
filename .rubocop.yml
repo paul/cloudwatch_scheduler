@@ -1,89 +1,351 @@
-Rails:
-  Enabled: true
+inherit_from:
+  - https://relaxed.ruby.style/rubocop.yml
+
+require:
+  - rubocop-rspec
 
 AllCops:
   DisplayCopNames: true
   DisplayStyleGuide: true
+  TargetRubyVersion: 2.7
 
-  Include:
-    - "**/Rakefile"
-    - "**/config.ru"
   Exclude:
     - "vendor/**/*"
     - "spec/fixtures/**/*"
     - "bin/**/*"
     - "script/**/*"
-Metrics/LineLength:
-  Max: 120
-Rails/Date:
-  Enabled: false
-Rails/TimeZone:
-  Enabled: false
-AllCops:
-  TargetRubyVersion: 2.3
-Style/AndOr:
-  EnforcedStyle: conditionals
-Style/CaseIndentation:
-  IndentOneStep: true
-Style/Documentation:
-  Enabled: false
-Style/EachWithObject:
-  Enabled: false
-Style/ExtraSpacing:
+    - "node_modules/**/*"
+    - "public/**/*"
+    - "tmp/**/*"
+    - "work/**/*"
+
+Layout:
+  Severity: error
+Lint:
+  Severity: error
+
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table
+Layout/LineLength:
+  Enabled: true
+  Max: 140
   Exclude:
-    - "config/routes.rb"
+    - db/migrate/*.rb
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - "spec/**/*"  # `expect { }.to change { }` is fine
+Lint/ShadowingOuterLocalVariable:
+  # Shadowing outer local variables with block parameters is often useful to
+  # not reinvent a new name for the same thing, it highlights the relation
+  # between the outer variable and the parameter. The cases where it's actually
+  # confusing are rare, and usually bad for other reasons already, for example
+  # because the method is too long.
+  Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - config/routes.rb
+    - db/migrate/*.rb
+    - lib/tasks/**/*
+    - Gemfile
+    - Guardfile
+    - shared_context
+    - feature
+    - app/admin/*
+  IgnoredMethods:
+    - configure
+    - context
+    - define
+    - describe
+    - factory
+    - it
+    - namespace
+    - specify
+    - task
+    - shared_examples_for
+    - shared_context
+    - feature
+    - define_type
+Metrics/ClassLength:
+  Exclude:
+    - "spec/**/*_spec.rb"
+Naming/RescuedExceptionsVariableName:
+  PreferredName: ex
+Naming/FileName:
+  Enabled: false
+Naming/AccessorMethodName:
+  # Avoid writing accessors in Ruby, but this catches too many false positives
+  Enabled: false
+Naming/MethodParameterName:
+  Enabled: false
+Style/EmptyLiteral:
+  Enabled: false
+Style/FormatStringToken:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  SafeAutoCorrect: true
+Style/HashEachMethods:
+  Enabled: true
 Style/HashSyntax:
   Exclude:
-    - "lib/tasks/**/*"
-Style/MultilineOperationIndentation:
-  EnforcedStyle: indented
+    - lib/tasks/**/*.rake
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: true
 Style/NumericLiterals:
   Enabled: false
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    "%w": "[]"
-    "%W": "[]"
-    "%i": "[]"
-    "%I": "[]"
-    "%r": "()"
-Style/SignalException:
-  EnforcedStyle: semantic
-Style/SingleLineBlockParams:
+Style/StringChars:
+  Enabled: true
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+Style/SymbolArray:
+  MinSize: 4
+
+# 0.81
+Lint/RaiseException:
+  Enabled: true
+Lint/StructNewOverride:
   Enabled: false
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
-Style/MultilineMethodCallIndentation:
-  Exclude:
-    - "spec/**/*.rb"
+
+# 0.82
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+Style/ExponentialNotation:
+  Enabled: true
+
+# 0.83
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+Style/SlicingWithRange:
+  Enabled: true
+
+# 0.84
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+# 0.85
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+Style/RedundantRegexpEscape:
+  Enabled: true
+
+# 0.86
+Style/RedundantFetchBlock:
+  Enabled: true
+Lint/ConstantResolution:
+  Enabled: false
+
+# 0.87
+Style/AccessorGrouping:
+  Enabled: true
+Style/BisectedAttrAccessor:
+  Enabled: true
+Style/RedundantAssignment:
+  Enabled: true
+
+# 0.88
+Lint/DuplicateElsifCondition:
+  Enabled: true
+Style/ArrayCoercion:
+  Enabled: true
+Style/CaseLikeIf:
+  Enabled: true
+Style/HashAsLastArrayItem:
+  Enabled: true
+Style/HashLikeCase:
+  Enabled: true
+Style/RedundantFileExtensionInRequire:
+  Enabled: true
+
+# 0.89
+Lint/BinaryOperatorWithIdenticalOperands:
+  Enabled: true
+Lint/DuplicateRescueException:
+  Enabled: true
+Lint/EmptyConditionalBody:
+  Enabled: true
+Lint/FloatComparison:
+  Enabled: true
+Lint/MissingSuper:
+  Enabled: false
+Lint/OutOfRangeRegexpRef:
+  Enabled: true
+Lint/SelfAssignment:
+  Enabled: true
+Lint/TopLevelReturnWithArgument:
+  Enabled: true
+Lint/UnreachableLoop:
+  Enabled: true
+Style/ExplicitBlockArgument:
+  Enabled: true
+Style/GlobalStdStream:
+  Enabled: false
+Style/OptionalBooleanParameter:
+  Enabled: false
+Style/SingleArgumentDig:
+  Enabled: false
+Style/SoleNestedConditional:
+  Enabled: true
+Style/StringConcatenation:
+  # `"a" + var + "b"` should be interpolated, but `"a" + var` or `var + "b"` is
+  # fine concatted
+  Enabled: false
+
+# 0.90
+Lint/DuplicateRequire:
+  Enabled: true
+Lint/EmptyFile:
+  Enabled: true
+Lint/TrailingCommaInAttributeDeclaration:
+  Enabled: true
+Lint/UselessMethodDefinition:
+  Enabled: true
+Style/CombinableLoops:
+  Enabled: true
+Style/KeywordParametersOrder:
+  Enabled: true
+Style/RedundantSelfAssignment:
+  Enabled: true
+
+# 0.91
+Layout/BeginEndAlignment:
+  Enabled: true
+Lint/ConstantDefinitionInBlock:
+  Enabled: false
+Lint/IdentityComparison:
+  Enabled: true
+Lint/UselessTimes:
+  Enabled: true
+
+# 0.93
+Lint/HashCompareByIdentity:
+  Enabled: true
+Lint/RedundantSafeNavigation:
+  Enabled: true
+Style/ClassEqualityComparison:
+  Enabled: true
+
+# 1.1
+Lint/DuplicateRegexpCharacterClassElement:
+  Enabled: true
+Lint/EmptyBlock:
+  Enabled: false
+Lint/ToEnumArguments:
+  Enabled: true
+Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+Style/ArgumentsForwarding:
+  Enabled: true
+Style/SwapValues:
+  Enabled: true
+Style/DocumentDynamicEvalDefinition:
+  Enabled: false
+
+#1.2
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: false
+Style/CollectionCompact:
+  Enabled: true
+Style/NegatedIfElseCondition:
+  Enabled: true
+
+ # 1.3
+Lint/DuplicateBranch:
+  Enabled: true
+Lint/EmptyClass:
+  Enabled: true
+Style/NilLambda:
+  Enabled: true
+
+# 1.4
+Style/RedundantArgument:
+  Enabled: false # Better to be explicit
+
+# 1.5
+Lint/UnexpectedBlockArity:
+  Enabled: true
+
+# 1.7
+Layout/SpaceBeforeBrackets:
+  Enabled: false #spaces are sometimes necessary
+Lint/AmbiguousAssignment:
+  Enabled: true
+Style/HashExcept:
+  Enabled: true
+
+# 1.8
+Lint/DeprecatedConstants:
+  Enabled: true
+Lint/LambdaWithoutLiteralBlock:
+  Enabled: true
+Lint/RedundantDirGlobSort:
+  Enabled: true
+Style/EndlessMethod:
+  Enabled: true
+
+# 1.9
+
+Lint/NumberedParameterAssignment:
+  Enabled: true
+Lint/OrAssignmentToConstant:
+  Enabled: true
+Lint/TripleQuotes:
+  Enabled: true
+Style/IfWithBooleanLiteralBranches:
+  Enabled: true
+Lint/SymbolConversion:
+  Enabled: true
+
+# 1.10
+Gemspec/DateAssignment:
+  Enabled: true
+Style/HashConversion:
+  Enabled: true
 
 
-# Rubocop's global exclude seems to fail to exclude the bin/ dir, so set all
-# the cops that are failing manually, since most of these files are
-# auto-generated anyways. Also, if the rules also appear above, we need to copy
-# the same attrs, because YAML won't merge, only overwrite.
+# Rspec
+RSpec/Capybara/FeatureMethods:
+  Enabled: false
+RSpec/ContextWording:
+  Enabled: false
+RSpec/DescribeClass:
+  Enabled: false
+RSpec/DescribedClass:
+  Enabled: false
+RSpec/ExampleLength:
+  Max: 10
+RSpec/ExampleWording:
+  Enabled: false
+RSpec/ExpectChange:
+  EnforcedStyle: block
+RSpec/Focus:
+  Severity: error
+RSpec/ImplicitExpect:
+  Enabled: false
+RSpec/LeadingSubject:
+  Enabled: false
+RSpec/MessageSpies:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Max: 4
+RSpec/NestedGroups:
+  Max: 4
+RSpec/NotToNot:
+  Enabled: false
+RSpec/ExpectInHook:
+  Enabled: false
+RSpec/LetSetup:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
 
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
-  Exclude:
-    - "bin/**/*"
-Style/FrozenStringLiteralComment:
-  Exclude:
-    - "bin/**/*"
-Style/LeadingCommentSpace:
-  Exclude:
-    - "bin/**/*"
-Style/SpaceInsideParens:
-  Exclude:
-    - "bin/**/*"
-Style/AlignParameters:
-  Exclude:
-    - "bin/**/*"
-Style/ExtraSpacing:
-  Exclude:
-    - "bin/**/*"
-  Exclude:
-    - "config/routes.rb"
-Lint/PercentStringArray:
-  Exclude:
-    # SecureHeaders needs the single quotes in `%w[https: 'self']`
-    - config/initializers/secure_headers.rb
+# 1.44
+RSpec/StubbedMock:
+  Enabled: true

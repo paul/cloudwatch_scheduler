@@ -1,16 +1,28 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 require "cloudwatch_scheduler/job"
 
 RSpec.describe CloudwatchScheduler::Job do
+  class Probe
+    include Singleton
 
-  before { $probe = false }
-  after  { $probe = nil }
+    attr_reader :called
+
+    def initialize
+      @called = false
+    end
+
+    def call
+      @called = true
+    end
+  end
 
   let(:config) do
-    CloudwatchScheduler.global.configure do |config|
+    CloudwatchScheduler.global.configure do |_config|
       task "test task", every: 1.minute do
-        $probe = true
+        Probe.instance.call
       end
     end
   end
@@ -22,10 +34,6 @@ RSpec.describe CloudwatchScheduler::Job do
   it "should execute the task" do
     ActiveJob::Base.execute(event)
 
-    expect($probe).to be true
-
-
+    expect(Probe.instance.called).to be true
   end
-
 end
-

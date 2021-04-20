@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 module CloudwatchScheduler
   class Engine < Rails::Engine

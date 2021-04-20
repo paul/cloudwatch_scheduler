@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require "cloudwatch_scheduler/configuration"
 require "cloudwatch_scheduler/task"
@@ -10,10 +11,7 @@ def CloudwatchScheduler(&config)
 end
 
 module CloudwatchScheduler
-
   def self.global
     @global ||= CloudwatchScheduler::Configuration.new
   end
-
 end
-

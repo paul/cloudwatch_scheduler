@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
 require "active_support/core_ext/numeric/time"
 
 module CloudwatchScheduler
   class Configuration
-
-    attr_accessor :queue_name,
-                  :queue_visibility_timeout,
+    attr_accessor :queue_visibility_timeout,
                   :queue_max_receive_count,
                   :use_dead_letter_queue
 
@@ -30,9 +30,10 @@ module CloudwatchScheduler
       @use_dead_letter_queue    = true
     end
 
+    attr_writer :queue_name
+
     def queue_name
       @queue_name ||= CloudwatchScheduler::Job.queue_name
     end
-
   end
 end

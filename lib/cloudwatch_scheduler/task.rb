@@ -1,4 +1,6 @@
-require 'active_support/core_ext/digest/uuid'
+# frozen_string_literal: true
+
+require "active_support/core_ext/digest/uuid"
 
 module CloudwatchScheduler
   class Task
@@ -8,6 +10,7 @@ module CloudwatchScheduler
       @name = name
       @every, @cron = every, cron
       fail "You must specify one of every: or cron:" unless [@every, @cron].any?
+
       @code = code
     end
 
@@ -24,18 +27,18 @@ module CloudwatchScheduler
     #  "locale":"en"}
     def event_data
       {
-        job_class: CloudwatchScheduler::Job.name,
-        job_id: job_id,
+        job_class:  CloudwatchScheduler::Job.name,
+        job_id:     job_id,
         queue_name: CloudwatchScheduler::Job.queue_name,
-        arguments: [name],
-        locale: "en",
-        priority: nil
+        arguments:  [name],
+        locale:     "en",
+        priority:   nil
       }
     end
 
     def rule_name
       limit = 64 - CloudwatchScheduler::Job.queue_name.length
-      [name[0, limit-1], CloudwatchScheduler::Job.queue_name].join("-")
+      [name[0, limit - 1], CloudwatchScheduler::Job.queue_name].join("-")
     end
 
     def rule_schedule_expression
@@ -65,6 +68,5 @@ module CloudwatchScheduler
     def cron_exp
       "cron(#{@cron})"
     end
-
   end
 end

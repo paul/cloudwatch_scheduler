@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CloudwatchScheduler
   class Job < ::ApplicationJob
     queue_as :cloudwatch_scheduler
@@ -9,6 +11,5 @@ module CloudwatchScheduler
     def perform(job_to_spawn)
       @config.tasks[job_to_spawn].invoke
     end
-
   end
 end

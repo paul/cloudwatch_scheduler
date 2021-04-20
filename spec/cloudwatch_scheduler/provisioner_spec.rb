@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 RSpec.describe CloudwatchScheduler::Provisioner do
@@ -14,8 +16,8 @@ RSpec.describe CloudwatchScheduler::Provisioner do
   let(:sqs_client) do
     Aws::SQS::Client.new(
       stub_responses: {
-        create_queue: {queue_url: "https://sqs.example/my-queue"},
-        get_queue_attributes:  {attributes: {"QueueArn" => "my-queue-arn"}}
+        create_queue:         { queue_url: "https://sqs.example/my-queue" },
+        get_queue_attributes: { attributes: { "QueueArn" => "my-queue-arn" } }
       }
     )
   end
