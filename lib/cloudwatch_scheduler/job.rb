@@ -2,7 +2,7 @@
 
 module CloudwatchScheduler
   class Job < ::ApplicationJob
-    queue_as :cloudwatch_scheduler
+    queue_as CloudwatchScheduler.global.queue_name
 
     def initialize(config: CloudwatchScheduler.global)
       @config = config

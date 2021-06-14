@@ -32,7 +32,7 @@ module CloudwatchScheduler
           name:                task.rule_name,
           schedule_expression: task.rule_schedule_expression,
           state:               "ENABLED",
-          description:         "CloudwatchScheduler task defined at #{task.code.source_location}"
+          description:         "CloudwatchScheduler task"
         ).rule_arn
 
         cwe.put_targets(

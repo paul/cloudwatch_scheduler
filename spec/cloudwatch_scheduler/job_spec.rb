@@ -10,21 +10,37 @@ RSpec.describe CloudwatchScheduler::Job do
     allow(Probe).to receive :call
   end
 
-  let(:config) do
-    CloudwatchScheduler.global.configure do |_config|
-      task "test task", every: 1.minute do
-        Probe.call
-      end
-    end
-  end
-
   let(:event) do
     config.tasks["test task"].event_data.stringify_keys
   end
 
-  it "should execute the task" do
-    ActiveJob::Base.execute(event)
+  context "with a callable object" do
+    let(:config) do
+      CloudwatchScheduler.global.configure do |_config|
+        task "test task", Probe, every: 1.minute
+      end
+    end
 
-    expect(Probe).to have_received(:call)
+    it "should execute the task" do
+      ActiveJob::Base.execute(event)
+
+      expect(Probe).to have_received(:call)
+    end
+  end
+
+  context "with a block" do
+    let(:config) do
+      CloudwatchScheduler.global.configure do |_config|
+        task "test task", every: 1.minute do
+          Probe.call
+        end
+      end
+    end
+
+    it "should execute the task" do
+      ActiveJob::Base.execute(event)
+
+      expect(Probe).to have_received(:call)
+    end
   end
 end

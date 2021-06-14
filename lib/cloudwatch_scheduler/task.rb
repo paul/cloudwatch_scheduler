@@ -4,18 +4,20 @@ require "active_support/core_ext/digest/uuid"
 
 module CloudwatchScheduler
   class Task
-    attr_reader :name, :code
+    attr_reader :name, :job
 
-    def initialize(name, every: nil, cron: nil, &code)
+    def initialize(name, callable = nil, every: nil, cron: nil, &block)
       @name = name
       @every, @cron = every, cron
       fail "You must specify one of every: or cron:" unless [@every, @cron].any?
 
-      @code = code
+      fail "You must specifiy either callable or a block, not both" if callable && block_given?
+
+      @job = callable || block
     end
 
     def invoke
-      code.call
+      @job.call
     end
 
     def job_id
