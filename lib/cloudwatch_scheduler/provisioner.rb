@@ -96,7 +96,7 @@ module CloudwatchScheduler
     end
 
     def queue_name
-      config.queue_name
+      config.actual_queue_name
     end
 
     def queue_url
