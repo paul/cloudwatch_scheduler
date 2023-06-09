@@ -8,6 +8,10 @@ jobs:
   rspec:
     name: RSpec
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        gemfile: [ rails_6, rails_7 ]
 
     steps:
       - uses: actions/checkout@v3
@@ -15,6 +19,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2
+
+      - env:
+        BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
 
       - name: Bundle
         run: |
