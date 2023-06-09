@@ -2,8 +2,8 @@
 
 source "https://rubygems.org"
 
-gem "railties", "~> 5.2"
-gem "activejob", "~> 5.2"
+gem "railties", "~> 7"
+gem "activejob", "~> 7"
 
 group :development, :test do
   gem "awesome_print"
