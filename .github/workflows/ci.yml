@@ -12,6 +12,8 @@ jobs:
       fail-fast: false
       matrix:
         gemfile: [ rails_6, rails_7 ]
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
 
     steps:
       - uses: actions/checkout@v3
@@ -20,8 +22,6 @@ jobs:
         with:
           ruby-version: 3.2
 
-      - env:
-        BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
 
       - name: Bundle
         run: |
