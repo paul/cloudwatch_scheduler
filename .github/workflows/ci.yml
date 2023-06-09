@@ -26,11 +26,10 @@ jobs:
       - name: Bundle
         run: |
           bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
-          bundle exec appraisal install
 
       - name: RSpec
         run: |
-          bundle exec appraisal rspec
+          bundle exec rspec
 
   # build:
   #   name: Build + Publish
