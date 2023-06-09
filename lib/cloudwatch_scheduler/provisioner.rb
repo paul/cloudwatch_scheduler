@@ -81,7 +81,7 @@ module CloudwatchScheduler
     private
 
     def create_dead_letter_queue!
-      dlq_name = queue_name + "-failures"
+      dlq_name = "#{queue_name}-failures"
       dlq_url = sqs.create_queue(queue_name: dlq_name).queue_url
       dlq_arn = sqs.get_queue_attributes(queue_url: dlq_url, attribute_names: ["QueueArn"]).attributes["QueueArn"]
 
@@ -96,7 +96,7 @@ module CloudwatchScheduler
     end
 
     def queue_name
-      config.queue_name
+      config.actual_queue_name
     end
 
     def queue_url

@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r(^exe/)) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = "~> 2.6"
+  spec.required_ruby_version = ">= 2.6"
 
   spec.add_dependency "aws-sdk-cloudwatchevents", "~> 1.13"
   spec.add_dependency "aws-sdk-sqs",              "~> 1.10"
