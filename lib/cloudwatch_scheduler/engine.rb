@@ -13,7 +13,7 @@ module CloudwatchScheduler
         # Cloudwatch Events, which provide no way to set message attributes
         Shoryuken.worker_registry.register_worker(
           CloudwatchScheduler::Job.queue_name,
-          ActiveJob::QueueAdapters::ShoryukenAdapter::JobWrapper
+          Shoryuken::ActiveJob::JobWrapper
         )
 
         # Load the configuration
